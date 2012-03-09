@@ -29,3 +29,5 @@ freenOSC n = withSC3 $ \fd -> send fd $ n_free [n]
 resetmOSC n = withSC3 $ \fd -> reset fd >> send fd (g_deepFree [1])
 
 resetSC3OSC = withSC3 (\fd -> reset fd)
+
+
