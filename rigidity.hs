@@ -187,7 +187,6 @@ updateSounds stateref id = do
       in
         gstate { lineSynths = M.adjust (\sp -> sp {fbase = float2Double newfreq}) id synths }
   
-
 sendParams stateref = do
   gstate <- readIORef stateref
   mapM_ (\(id, syp) -> setParamOSC id "fbase" (fbase syp)) $ M.toList $ lineSynths gstate
@@ -376,7 +375,6 @@ installSynthOSC def =
 setFOSC n f = 
   withSC3 $ \fd -> 
     send fd $ n_set n [("freq", f)]
-
 setAOSC n a = 
   withSC3 $ \fd -> 
     send fd $ n_set n [("amp", a)]
