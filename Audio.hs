@@ -3,9 +3,6 @@ import Sound.SC3
 import Sound.SC3.ID hiding (ID)
 import Sound.SC3.Lang.Pattern.ID
 
--- audio
-mono = audition . out 0 
-s freq amp = (sinOsc AR freq 0) * amp
 
 addSynthOSC name n =
  withSC3 $ \fd -> do

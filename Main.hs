@@ -149,7 +149,7 @@ eventMouseClick glstate grstate =
     _ -> return grstate
 
 gscale :: Float -> Double
-gscale u = float2Double $ (u+1) * 50 + 22
+gscale u = float2Double $ (u+1) * 75
 
 runEvents :: GlutState -> GameState -> IO GameState
 runEvents glstate grstate = 
