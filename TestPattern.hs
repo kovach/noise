@@ -33,8 +33,7 @@ main = do
   -- (_, squig3) <- unzip <$> mkSquiggleNote 0.5 0.99 20 (base * 3)
   line1 <- mkSquiggleNote 0.9 16 30.0 (round $ fbase * note1)
   line2 <- mkSquiggleNote 0.9 16 30   (round $ fbase * note2)
-  line3 <- mkSquiggleNote 0.9 16 3
-0   (round $ fbase * note3)
+  line3 <- mkSquiggleNote 0.9 16 30   (round $ fbase * note3)
   p1 <- squigglify 0.999 50 line1
   p2 <- squigglify 0.999 50 line2
   p3 <- squigglify 0.999 50 line3
@@ -46,7 +45,6 @@ main = do
   print short
   let sawi = toP [InstrumentName "saw"]
   let sini = toP [InstrumentName "sine"]
---  audition (sineSynth, ppar [melody2Pat mel 0.25, melody2Pat (reverse mel) 0.25])
 --  audition (sineSynth, ppar [melody2Pat mel 0.25, melody2Pat (reverse mel) 0.25])
 {-  audition (sine3Synth, pbind $ [("attack", 0.001)] ++ 
                       raw2Param "dur" durs ++ raw2Param "freq1" squig1 ++ 
@@ -68,13 +66,9 @@ main = do
 -- mono $ s 700 0.1
 -- mono $ s 800 0.1
 
-base = 22 :: Int
-num = 8
 
 normalize xs' = 
   let xs = map fromIntegral xs' in
-  map (/ (sum xs)) xs
-normalizedubs xs = 
   map (/ (sum xs)) xs
 fall = map fromIntegral [10, 8, 7, 7, 6, 5, 4, 3]
 rot 0 list = list
@@ -94,19 +88,4 @@ rot n' (x:xs) =
 -- setParamOSC 28 "amp" 0.15
 -- setParamOSC 29 "amp" 0.05
 
-setAmps freqs = 
-  mapM (\n -> do
-          setParamOSC (base+n) "amp" (freqs !! n))
-       [0..(num-1)]
-
-
-conv = float2Double . fromIntegral
-
-addTones = do
-  installSynthOSC toneSynth
-  mapM (\n -> do
-          addSynthOSC "tone" n
-          setParamOSC n "amp" 0.1 
-          setParamOSC n "freq" ((conv (n - base + 1)) * 100)
-          return n) [base..(base+num-1)]
 

@@ -61,8 +61,6 @@ simpleGr scale r m = do
 --smallSkips
 
 
---inaccurate note expander - but I !
-
 -- total dur, ratio of note lengths, number of notes, target freq
 -- note durs in the sequence change geometrically
 mkSquiggleNote ratio n duration target = 

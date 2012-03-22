@@ -6,6 +6,7 @@ import Sound.SC3.ID
 import Sound.SC3.Lang.Pattern.ID
 
 import Audio
+import Synths
 
 sineSynth =
    let f = control KR "freq" 100
