@@ -18,6 +18,23 @@ sineSynth =
        att = control KR "attack" 0.01
        e = envGen KR g a 0 1 RemoveSynth (envPerc att dur)
    in synthdef "sine" $ out 0 $ (s f 1) * e
+harmSynth =
+   let f = control KR "freq" 100
+       a = control KR "amp" 1
+       g = control KR "gate" 1
+       dur = control KR "dur" 1
+       att = control KR "attack" 0.01
+       e = envGen KR g a 0 1 RemoveSynth (envPerc att dur)
+   in synthdef "sine" $ out 0 $ harm f * e
+
+percSynth =
+   let f = control KR "freq" 100
+       a = control KR "amp" 1
+       g = control KR "gate" 1
+       dur = control KR "dur" 1
+       att = control KR "attack" 0.01
+       e = envGen KR g a 0 1 RemoveSynth (envPerc att dur)
+   in synthdef "perc" $ out 0 $ (pinkNoise 'a' AR) * e
 
 sawSynth =
    let f = control KR "freq" 100
@@ -72,6 +89,10 @@ growl a b c d =
   in
     mix $ s (mce freqs) (mce amps)
 
+harm f = 
+  let amps  = [1, 0.6, 0.5, 0.4, 0.2, 0.1]
+  in
+    mix $ s (mce (take (length amps) (map (* f) [1..]) )) (mce (map (/ sum amps) amps))
 growlSynth = 
   let 
     f1 = control KR "f1" 45
@@ -81,7 +102,6 @@ growlSynth =
     a = control KR "amp" 0.5
   in synthdef "growl" $ out 0 $ growl f1 f2 f3 f4 * a
 
-howl f =
-  rlpf (whiteNoise 'a' AR) f 0.1
+howl f a =
+  rlpf (whiteNoise 'a' AR) f 0.1 * a
 
---bLowShelf

@@ -83,3 +83,10 @@ mkSquiggleNote ratio n duration target =
   
 squigglify ratio n pairs = 
   concat <$> mapM (uncurry $ mkSquiggleNote ratio n) pairs
+
+-- some scale operations
+addOctave x = x ++ (map (* 2) x)
+
+shrinkOctave x = map (/ 2) x
+
+addDetail x = shrinkOctave $ addOctave x
