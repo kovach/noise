@@ -6,6 +6,8 @@ import GHC.Float
 
 roll :: Int -> Int -> IO Int
 roll lo hi = getStdRandom (randomR (lo,hi))
+rollf :: Float -> Float -> IO Float
+rollf lo hi = getStdRandom (randomR (lo,hi))
 roll' = fmap fromIntegral . uncurry roll
 
 rollSeq lo hi n = sequence (replicate n (roll lo hi))
@@ -35,3 +37,16 @@ takeRand n list = do
   i <- roll 0 (length list - 1)
   rest <- takeRand (n-1) list
   return $ (list !! i) : rest
+
+
+randMeanS m s = do
+  b <- roll 0 1
+  return $ if b == 0 then m + s else m - s
+
+
+
+randNorm m s = do
+  u <- rollf 0 1
+  v <- rollf 0 1
+  return $
+         sqrt (-2 * log u) * cos (2 * pi * v)

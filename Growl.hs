@@ -6,7 +6,7 @@ import Sound.SC3.ID
 import Sound.SC3.Lang.Pattern.ID
 
 import Audio
-import Synths
+import Synths hiding (growl)
 
 sineSynth =
    let f = control KR "freq" 100

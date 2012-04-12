@@ -21,4 +21,6 @@ main = do
       fr = bufFrames AR b
       dur = bufDur AR b
       s1 = fr/dur
-  audition (out 0 $ mix $ (playBuf 2 AR b (-sc * 0.5) 1 (fr - s1 * 0.1 * (0/0.22 + mce [1..22])) NoLoop DoNothing))
+
+  audition (out 0 $ mix $ 
+      (playBuf 2 AR b (-sc * 0.5) 1 (fr - s1 * 0.1 *  mce [1..22]) NoLoop DoNothing))

@@ -71,10 +71,6 @@ normalize xs' =
   let xs = map fromIntegral xs' in
   map (/ (sum xs)) xs
 fall = map fromIntegral [10, 8, 7, 7, 6, 5, 4, 3]
-rot 0 list = list
-rot n' (x:xs) = 
-  let n = mod n' (length xs + 1) in
-  rot (n-1) (xs ++ [x])
 
 -- addTones 
 -- setAmps (rot 0 $ normalize [10,6,15,10, 2,2,15,5, 5,5,5,4])

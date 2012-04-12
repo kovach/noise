@@ -28,10 +28,9 @@ main = do
   let base = 130
       third = base * 5/4
       fifth = base * 3/2
-      lapse = 20
+      lapse = 12
 
---  mono $    (s 440 0.2) +   (s 550 0.2) +   (s 660 0.2)
-
+ --  mono $    (s 440 0.2) +   (s 550 0.2) +   (s 660 0.2)
   let 
     cresc1 = line KR 0.03 0.3 lapse DoNothing
     cresc2 = cresc1 * 0.7
@@ -45,27 +44,31 @@ main = do
     major3 = baseScale !! 4
     major5 = baseScale !! 7
 
-    scale =  addDetail . addOctave $ addDetail $ baseScale
---    inst = (flip s 0.5)
-    inst = harm
-    numnotes = 4
+--    scale =  addDetail $ addDetail  $ baseScale
+    scale =  addOctave . addOctave . addDetail  $ baseScale
+    inst = s
+    numnotes = 8
 
 
+
+--mono $ rlpf (whiteNoise 'a' AR) 800 0.1
   notes <- takeRand numnotes $ scale
+-- let notes = [insert list]
   let notes' = rot 1 $ notes
 
   print notes
 --  mono $ (harm (constant base) + harm (constant (3 * major3)) + harm (constant major5)) * 0.3
 
-  mono $
+  mono $ mix $ mce $ 
+       map (\(p1,p2) ->
+              (inst (xLine KR p1 p2 lapse DoNothing) (0.5/numnotes)))
+             (zip (map constant notes') (map constant notes))
+
 {-    (inst (line KR (nudge tonic 3) tonic lapse DoNothing) * dcresc1) +
     (inst (line KR (nudge third 3) third lapse DoNothing) * dcresc2) +
     (inst (line KR (nudge fifth (-3)) fifth lapse DoNothing) * dcresc2)
 -}
 
-          mix $ mce $ map (\(p1,p2) ->
-                 (inst (xLine KR p1 p2 lapse DoNothing) * (0.5/numnotes)))
-           (zip (map constant notes') (map constant notes))
 
             
 {-    (inst (line KR fifth base lapse DoNothing) dcresc1) +
