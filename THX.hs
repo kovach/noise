@@ -10,10 +10,12 @@ import Sound.SC3.ID
 import Sound.SC3.Lang.Pattern.ID
 import Sound.SC3.Lang.Control.Instrument
 
-import Data.Random.Distribution
+--import Data.Random.Distribution
 import Control.Applicative
 
 data Direction = Up | Down
+
+--mono $ s 400 0.3
 
 nudge f 0 = f
 nudge f n | n > 0 = nudge (f * 1.01) (n-1)

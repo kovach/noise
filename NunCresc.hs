@@ -1,4 +1,3 @@
-
 import Audio
 import Synths
 import Sound.SC3
@@ -12,6 +11,7 @@ initf =
 --              , "/home/scott/noise/stabat.wav"
 --              , "/home/scott/noise/wisdomclipp1.wav"
                "/home/scott/noise/wisdomclipp2.wav"
+               , "/home/scott/noise/intervallo1.wav"
 --              , "/home/scott/noise/wisdomclipp3.wav"
 --              , "/home/scott/u/362/perfect.wav"
               ]
@@ -32,16 +32,17 @@ f n = n * sampleRate
 pat1 b len = 
         pinstr_s (return "loop") $ 
            pbind $ [ ("b",toP [b])
-                   , ("amp",toP . take len $ itrconcat (* 1.05) [3,0.5,0.2,0.1])
-                   , ("dur", toP . take len $ [1])
+                   , ("amp",toP . take len $ itrconcat (* 1.01) $ map (* 3) [3,0.5,0.2,0.1])
+                   , ("dur", toP . take len $ [0.5])
                    , ("sustain", toP [1])
                    , ("bus", toP . take len $ [0,1,0,1,1,0,1,0])
-                   , ("rate", toP [0.01,0.05,0.1,0.2]) -- ,0.8,1.0])
+                   , ("rate", toP . take len $ itrconcat (* 1.0) [0.01,0.05,0.1,0.2]) -- ,0.8,1.0])
+                   , ("phase", toP . take len $ itrconcat (+ 0.00) [0])
                    ]
 pat2 b len = 
         pinstr_s (return "loop") $ 
            pbind $ [ ("b",toP [b])
-                   , ("amp",toP . take len $ itrconcat (* 1.02) [0.7,0.5,0.4,0.3])
+                   , ("amp",toP . take len $ itrconcat (* 1.01) [0.7,0.5,0.4,0.3])
                    , ("dur", toP . take len $ [0.5])
                    , ("sustain", toP [1])
                    , ("bus", toP . take len $ [0,1,0,1,1,0,1,0])
@@ -53,7 +54,7 @@ main = do
   installSynthOSC loopSynth
   let snum = 22
 --  addSynthOSC "play" snum
-  let b = 0
+  let b = 1
       sc = bufRateScale KR b
       fr = bufFrames KR b
       dur = bufDur KR b
@@ -63,16 +64,17 @@ main = do
       mx a b = mouseX KR a b Linear 0.1
       slowspeed = 0.05
       frames = [1,1.001..1.01]
-      speedup = [line KR slowspeed 1 (bufDur KR b / (0.1 * slowspeed)) DoNothing] -- [1,1.001..1.01]
+      speedup = [line KR slowspeed 1 (bufDur KR b / (0.5 * slowspeed)) DoNothing] -- [1,1.001..1.01]
 
 {- sound 1-}
---  audition (pat1 0 192)
+  audition (pat1 1 12)
 
 {- sound 2-}
---  audition (pat2 48)
+--  audition (pat2 3 192)
 
 {- sound a -}
-  mono $ loopPlay b (mce speedup) (mce [0,0.05..1.0])
+--  mono $ mix $ loopPlay b (mce [4..16]) (mce [0,0.1..1.0])
+--  mono $ loopPlay b (mce speedup) (mce [0,0.05..1.0])
 
   print 22
 

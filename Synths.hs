@@ -8,7 +8,7 @@ import Audio
 
 
 -- UGENS
-mono = audition . out 0 
+mono x = audition $ mce [out 0 x, out 1 x]
 s freq amp = (sinOsc AR freq 0) * amp
 sw freq amp = (saw AR freq) * amp
 
@@ -38,6 +38,13 @@ loopPlay b rate phase  =
 
 
 -- synths
+-- data MSynthDef = 
+--   MSynthDef { msynthdefName :: String
+--             , mugen :: UGen }
+
+-- toSynthDef :: MSynthDef -> SynthDef
+-- toSynthDef (MSynthDef n u) = synthdef n u
+
 sineSynth =
    let f = control KR "freq" 100
        a = control KR "amp" 1
@@ -135,7 +142,7 @@ loopSynth =
     sus = control KR "sustain" 1
     e = envGen KR g a 0 1 DoNothing (envPerc att dur)
   in
-    synthdef "play" $ out bus $ loopPlay buf rate phase * line AR 0 a 0.1 DoNothing
+    synthdef "loop" $ out bus $ loopPlay buf rate phase * line AR 0 a 0.1 DoNothing
     
 grainSynth = 
   let w = control KR "width" 1

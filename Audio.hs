@@ -15,6 +15,9 @@ addSynthOSC name n =
 setParamOSC n name val =
   withSC3 $ \fd -> 
     send fd $ n_set n [(name, val)]
+setParamsOSC n pairs = 
+  withSC3 $ \fd -> 
+    send fd $ n_set n pairs
 
 installSynthOSC def = 
   withSC3 $ \fd -> async fd $ d_recv def

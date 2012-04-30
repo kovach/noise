@@ -9,7 +9,7 @@ import Sound.SC3.ID
 import Sound.SC3.Lang.Pattern.ID
 import Sound.SC3.Lang.Control.Instrument
 
-import Data.Random.Distribution
+--import Data.Random.Distribution
 import Control.Applicative
 
 import GHC.Float
